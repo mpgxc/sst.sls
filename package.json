@@ -1,18 +1,19 @@
 {
-	"name": "sls-ecommerce-stores-reports",
-	"author": "mpgxc",
-	"license": "MIT",
-	"description": "A SST app",
-	"devDependencies": {
-		"@tsconfig/node20": "^20.1.4",
-		"@types/aws-lambda": "8.10.145",
-		"@types/node": "^22.7.5",
-		"tsx": "^4.19.1",
-		"typescript": "^5.6.3"
-	},
-	"dependencies": {
-		"@aws-sdk/client-s3": "^3.668.0",
-		"axios": "^1.7.7",
-		"sst": "3.1.74"
-	}
+  "name": "sls-ecommerce-stores-reports",
+  "author": "mpgxc",
+  "license": "MIT",
+  "type": "module",
+  "description": "A SST app",
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/aws-lambda": "8.10.145",
+    "@types/node": "^22.7.5",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.668.0",
+    "axios": "^1.7.7",
+    "sst": "3.1.74"
+  }
 }
