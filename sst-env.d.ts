@@ -5,5 +5,9 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
+    "app-notifications-lambda": {
+      "name": string
+      "type": "sst.aws.Function"
+    }
   }
 }

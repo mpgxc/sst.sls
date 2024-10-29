@@ -3,45 +3,28 @@
 export default $config({
 	app(input) {
 		return {
-			name: "sls-ecommerce-stores-reports",
+			name: "app-notifications",
 			removal: input?.stage === "production" ? "retain" : "remove",
 			home: "aws",
-			providers: {
-				aws: {
-					region: "us-east-1",
-					accessKey: process.env.AWS_ACCESS_KEY_ID,
-					secretKey: process.env.AWS_SECRET_ACCESS_KEY,
-				},
-			},
 		};
 	},
 	async run() {
-		const vpc = new sst.aws.Vpc("ScheduleReportProcessing", {
-			bastion: true,
-			nat: "managed",
+		const topic = new aws.sns.Topic("app-notifications-topic", {
+			name: "app-notifications-topic",
+			displayName: "App Notifications Topic",
 		});
 
-		const bucket = new sst.aws.Bucket("ScheduleReportProcessing");
-
-		const job = new sst.aws.Function("ScheduleReportProcessing", {
-			vpc,
+		const lambda = new sst.aws.Function("app-notifications-lambda", {
+			name: "app-notifications-lambda",
 			runtime: "nodejs20.x",
-			link: [bucket],
-			handler: "src/schedule.handler",
-			environment: {
-				BUCKET_NAME: bucket.name,
-			},
+			handler: "src/handler.handler",
 		});
 
-		const schedule = new sst.aws.Cron("ScheduleReportProcessing", {
-			schedule: "cron(0 0 ? * MON-FRI *)",
-			job: job.arn,
-		});
+		sst.aws.SnsTopic.subscribe(topic.arn, lambda.arn);
 
 		return {
-			job,
-			bucket,
-			schedule,
+			topic,
+			lambda,
 		};
 	},
 });
